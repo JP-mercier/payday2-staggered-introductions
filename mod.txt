@@ -1,0 +1,14 @@
+{
+	"name" : "Staggered Introductions",
+	"description" : "Host-side fix for players who can't connect to each other when someone joins (drop-in stuck loading, a teammate who never appears). The host now tells the newcomer about the others 1.5 s before telling the others about the newcomer, so only one side opens each peer-to-peer connection; simultaneous opening makes Epic's P2P layer sometimes get stuck. Only the host needs it.",
+	"author" : "jpmercier",
+	"version" : "1.0.0",
+	"blt_version" : 2,
+	"color" : "0.3 0.8 0.5",
+	"hooks" : [
+		{
+			"hook_id" : "lib/network/base/hostnetworksession",
+			"script_path" : "lua/stagger.lua"
+		}
+	]
+}
