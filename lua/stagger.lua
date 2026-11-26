@@ -13,15 +13,8 @@
 -- waiting, so only one side opens each connection. Nothing else changes, and the other players
 -- need no mod.
 
-StaggeredIntroductions = StaggeredIntroductions or {}
+dofile(ModPath .. "lua/settings.lua")
 local SI = StaggeredIntroductions
-
--- Seconds between telling the newcomer about the others and telling the others about the newcomer.
-SI.DELAY = SI.DELAY or 1.5
--- false: vanilla behavior.
-if SI.ENABLED == nil then
-	SI.ENABLED = true
-end
 
 local function say(msg)
 	log("[Staggered Introductions] " .. msg)
