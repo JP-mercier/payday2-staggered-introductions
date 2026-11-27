@@ -1,8 +1,8 @@
 # Staggered Introductions
 
-SuperBLT mod for PAYDAY 2. Host-side fix for players who can't connect to each other when someone joins: a drop-in that stays on the loading screen, or a teammate who never appears for one player.
+SuperBLT mod for PAYDAY 2. Fix for players who can't connect to each other when someone joins: a drop-in that stays on the loading screen, or a teammate who never appears for one player.
 
-Only the host needs the mod. The other players need nothing, not even SuperBLT. An experimental client side, off by default, covers your own connections in lobbies hosted without the mod.
+When you host, only you need the mod: the other players need nothing, not even SuperBLT. When you join a lobby hosted without the mod, the client side covers your own connections.
 
 ## Requirements
 
@@ -41,30 +41,31 @@ The delayed introduction is skipped if the newcomer left (or another player took
 
 Side effect: each new connection between guests comes up about 1 s later than before (2-3 s instead of 1-2 s). If the host starts the heist during that window, the game waits until the connections are made, as it does in vanilla.
 
-## Client side (experimental, off by default)
+## Client side
 
 For lobbies hosted without the mod. When the host introduces another player to you (`peer_handshake`), the whole introduction is taken a moment later, so that player's connection request is already waiting and only one side opens the connection. Two players with the mod wait different times (1.0 s or 2.5 s, by comparing their user ids), and either way it fits with a host that staggers.
 
 The whole introduction is delayed, not only the connection. A player without a connection makes the game refuse to load or leave (`BaseNetworkSession:is_ready_to_close`), and HUD mods that read that player's ping crash the engine. Vanilla ignores messages about a player it doesn't know yet. None that matter can arrive before you answer: the host only goes on with the pair after your `connection_established`. If the host removes that player during the wait (`kick_peer`), the pending introduction is dropped.
 
-Turn it on with `CLIENT_ENABLED = true` (see Settings). It has not been tested in game yet.
+On by default since 1.2.0. It only changes when your own game acts on an introduction: nothing extra is sent, and the other players' games behave as in vanilla. Turn it off with `CLIENT_ENABLED = false` (see Settings).
 
 ## Evidence
 
 Measured with Network Diagnostics (game side) and an EOS log hook.
 
 - Before, in lobbies hosted by the author (2026-11-18 to 11-22): 40 of 121 guest-to-guest connections never came up. EOS logs of failed links showed the simultaneous-request renegotiation above. A retry with only one side requesting connected in about 1 s.
-- With this mod, in one hosted session (2026-11-25): 6 of 6 guest pairs connected in 2-3 s, including pairs that had failed every time before.
+- Host side, one hosted session (2026-11-25): 6 of 6 guest pairs connected in 2-3 s, including pairs that had failed every time before.
+- Client side, one session joining four lobbies hosted without the mod (2026-11-27): 7 of 7 connections to other guests were opened by the other side only (their request arrived 1.0-2.3 s before the game sent anything), no collision, all connected in under 1.5 s.
 
-That is one session so far. More data is welcome.
+Still a small sample. More data is welcome.
 
 ## Settings
 
-In `lua/settings.lua`, or in a `local_settings.lua` next to `mod.txt` (read after the defaults, e.g. `StaggeredIntroductions.CLIENT_ENABLED = true`):
+In `lua/settings.lua`, or in a `local_settings.lua` next to `mod.txt` (read after the defaults, e.g. `StaggeredIntroductions.CLIENT_ENABLED = false`):
 
 - `ENABLED` (true): host side. false restores vanilla behavior.
 - `DELAY` (1.5): host side, seconds between the two introductions.
-- `CLIENT_ENABLED` (false): client side.
+- `CLIENT_ENABLED` (true): client side. false restores vanilla behavior.
 - `CLIENT_DELAY_LOW` (1.0), `CLIENT_DELAY_HIGH` (2.5): client side wait, by user id order.
 
 ## Compatibility
@@ -75,5 +76,5 @@ In `lua/settings.lua`, or in a `local_settings.lua` next to `mod.txt` (read afte
 
 ## Limitations
 
-- The host side only works when you host. In lobbies hosted by others, only the experimental client side helps, and only for your own connections.
+- The host side only works when you host. In lobbies hosted by others, only the client side helps, and only for your own connections.
 - It prevents the collision. It does not fix connections that fail for other reasons, such as a network that can't be reached at all.

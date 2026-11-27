@@ -1,4 +1,4 @@
--- Client side (StaggeredIntroductions.CLIENT_ENABLED, off by default).
+-- Client side (StaggeredIntroductions.CLIENT_ENABLED, on by default).
 --
 -- When the host introduces another player to us (peer_handshake), vanilla adds the player and
 -- opens the connection to them at once, while that player does the same towards us: the
