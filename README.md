@@ -51,11 +51,25 @@ On by default since 1.2.0. It only changes when your own game acts on an introdu
 
 ## Evidence
 
-Measured with Network Diagnostics (game side) and an EOS log hook.
+Measured with Network Diagnostics (a game-side logging mod) and a hook that records Epic's own P2P log (EOS log level VeryVerbose, plus per-peer counts of packets sent and delivered).
 
-- Before, in lobbies hosted by the author (2026-11-18 to 11-22): 40 of 121 guest-to-guest connections never came up. EOS logs of failed links showed the simultaneous-request renegotiation above. A retry with only one side requesting connected in about 1 s.
-- Host side, one hosted session (2026-11-25): 6 of 6 guest pairs connected in 2-3 s, including pairs that had failed every time before.
-- Client side, one session joining four lobbies hosted without the mod (2026-11-27): 7 of 7 connections to other guests were opened by the other side only (their request arrived 1.0-2.3 s before the game sent anything), no collision, all connected in under 1.5 s.
+### Before
+
+- In public lobbies joined by the author (2026-10-21 to 10-30): about 7.5% of guest-to-guest connections never came up (23 of ~305). The connection to the host was fine (241 of 243). Working links came up in under 2 s, almost never later, so nothing rescued a stuck one.
+- In lobbies hosted by the author (2026-11-18 to 11-22): 40 of 121 guest pairs never connected (33%). Failures were per pair and per attempt: the same two players could fail as guests and connect fine as host and joiner.
+- Retrying the same pair soon after rarely helped: a rejoin within ~20 s worked 0 of 7 times, and a host re-introduction ~10 s later 0 of 4.
+
+### Cause
+
+- The EOS log showed the collision on about a third of all new guest connections (both requests sent 5-50 ms apart). Most survived it. The ones that didn't all logged the stale answer quoted above, and the packet counts showed the game sending while EOS delivered nothing until its 45 s timeout.
+- When only one side opened the connection, it came up in under 1 s every time (median 0.24 s for the connectivity checks).
+- One player failed to connect to the author three times in a row with that exact signature, then connected on the first try once only one side was allowed to open the connection.
+
+### With the mod
+
+- Host side, two hosted sessions (2026-11-25, 11-27): 8 of 8 guest pairs connected, in 2-3 s, including pairs that had failed every time before. The players joining did not have the mod.
+- Client side, one session joining four lobbies hosted without the mod (2026-11-27): 7 of 7 connections to other guests were opened by the other side only (their request arrived 1.0-2.3 s before the game sent anything). No collision, all connected in under 1.5 s. (The author's EOS hook, which can also hold packets back, was running but never had to act.)
+- Across every session run with this mod or an earlier native version of the same idea (2026-11-23 to 11-27): about 40 guest connections, none dead, against roughly one in three before in the author's lobbies.
 
 Still a small sample. More data is welcome.
 
@@ -78,3 +92,4 @@ In `lua/settings.lua`, or in a `local_settings.lua` next to `mod.txt` (read afte
 
 - The host side only works when you host. In lobbies hosted by others, only the client side helps, and only for your own connections.
 - It prevents the collision. It does not fix connections that fail for other reasons, such as a network that can't be reached at all.
+- It does not help when a player's own game drops out, for example after an error while a heist restarts: their game closes the connection and ignores new requests, and vanilla keeps their slot (holding up the start and other drop-ins) until it removes them about 80 s later.
