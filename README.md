@@ -94,3 +94,7 @@ In `lua/settings.lua`, or in a `local_settings.lua` next to `mod.txt` (read afte
 - The host side only works when you host. In lobbies hosted by others, only the client side helps, and only for your own connections.
 - It prevents the collision. It does not fix connections that fail for other reasons, such as a network that can't be reached at all.
 - It does not help when a player's own game drops out, for example after an error while a heist restarts: their game closes the connection and ignores new requests, and vanilla keeps their slot (holding up the start and other drop-ins) until it removes them about 80 s later.
+
+## License
+
+MIT, see [LICENSE](LICENSE). You can reuse and modify the code, including in your own mods, as long as the copyright notice and license text stay with it.
