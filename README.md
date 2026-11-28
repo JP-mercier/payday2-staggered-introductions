@@ -1,6 +1,6 @@
-# Staggered Introductions
+# Drop-in Desync Fix
 
-SuperBLT mod for PAYDAY 2. Fix for players who can't connect to each other when someone joins: a drop-in that stays on the loading screen, or a teammate who never appears for one player.
+SuperBLT mod for PAYDAY 2 (formerly Staggered Introductions). Fix for the "desync" where players can't connect to each other when someone joins: a drop-in that stays on the loading screen, or a teammate who never appears for one player.
 
 When you host, only you need the mod: the other players need nothing, not even SuperBLT. When you join a lobby hosted without the mod, the client side covers your own connections.
 
@@ -67,11 +67,11 @@ Measured with Network Diagnostics (a game-side logging mod) and a hook that reco
 
 ### With the mod
 
-- Host side, two hosted sessions (2026-11-25, 11-27): 8 of 8 guest pairs connected, in 2-3 s, including pairs that had failed every time before. The players joining did not have the mod.
+- Host side, three hosted sessions (2026-11-25, two on 11-27, about 7 hours, public lobbies with lobby joins and mid-heist drop-ins): 59 of 59 guest pairs connected, including pairs that had failed every time before. At the earlier rate, about 19 of them would have failed. Most came up in 2-3 s, a few took 9-27 s, none was lost. The players joining did not have the mod. (One more pair never finished because one of the two players had already dropped out, see Limitations.)
 - Client side, one session joining four lobbies hosted without the mod (2026-11-27): 7 of 7 connections to other guests were opened by the other side only (their request arrived 1.0-2.3 s before the game sent anything). No collision, all connected in under 1.5 s. (The author's EOS hook, which can also hold packets back, was running but never had to act.)
-- Across every session run with this mod or an earlier native version of the same idea (2026-11-23 to 11-27): about 40 guest connections, none dead, against roughly one in three before in the author's lobbies.
+- Across every session run with this mod or an earlier native version of the same idea (2026-11-23 to 11-27): about 90 guest connections, none dead, against roughly one in three before in the author's lobbies.
 
-Still a small sample. More data is welcome.
+More data is welcome, especially from players who join others' lobbies (client side).
 
 ## Settings
 

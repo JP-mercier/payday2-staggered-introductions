@@ -1,8 +1,8 @@
 {
-	"name" : "Staggered Introductions",
-	"description" : "Fix for players who can't connect to each other when someone joins (drop-in stuck loading, a teammate who never appears). Host side (on): the host tells the newcomer about the others 1.5 s before telling the others about the newcomer, so only one side opens each peer-to-peer connection; simultaneous opening makes Epic's P2P layer sometimes get stuck. Other players need nothing. Client side (on): takes the host's introductions a moment later, so your own connections are fixed in lobbies hosted without the mod. Settings in lua/settings.lua.",
+	"name" : "Drop-in Desync Fix",
+	"description" : "Formerly Staggered Introductions. Fixes the 'desync' where players can't connect to each other when someone joins (drop-in stuck loading, a teammate who never appears). Host side (on): the host tells the newcomer about the others 1.5 s before telling the others about the newcomer, so only one side opens each peer-to-peer connection; simultaneous opening makes Epic's P2P layer sometimes get stuck. Other players need nothing. Client side (on): takes the host's introductions a moment later, so your own connections are fixed in lobbies hosted without the mod. Settings in lua/settings.lua.",
 	"author" : "jpmercier",
-	"version" : "1.2.1",
+	"version" : "1.2.2",
 	"blt_version" : 2,
 	"color" : "0.3 0.8 0.5",
 	"hooks" : [

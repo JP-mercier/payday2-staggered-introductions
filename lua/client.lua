@@ -22,7 +22,7 @@ dofile(ModPath .. "lua/settings.lua")
 local SI = StaggeredIntroductions
 
 local function say(msg)
-	log("[Staggered Introductions] " .. msg)
+	log("[Drop-in Desync Fix] " .. msg)
 end
 
 function SI:client_delay(peer_user_id)

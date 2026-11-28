@@ -1,4 +1,4 @@
--- Staggered Introductions (host only).
+-- Drop-in Desync Fix (formerly Staggered Introductions), host side.
 --
 -- When a player joins, the host introduces them to the players already in the lobby and the
 -- players already in to them, in the same frame (HostStateBase:_introduce_old_peers_to_new_peer
@@ -17,7 +17,7 @@ dofile(ModPath .. "lua/settings.lua")
 local SI = StaggeredIntroductions
 
 local function say(msg)
-	log("[Staggered Introductions] " .. msg)
+	log("[Drop-in Desync Fix] " .. msg)
 end
 
 if HostStateBase and HostStateBase._introduce_new_peer_to_old_peers and not HostStateBase._staggered_introductions then
