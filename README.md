@@ -85,7 +85,8 @@ In `lua/settings.lua`, or in a `local_settings.lua` next to `mod.txt` (read afte
 ## Compatibility
 
 - Wraps `HostStateBase:_introduce_new_peer_to_old_peers` and calls the original. Other mods that wrap it still run.
-- If the author's Peer Relink mod is installed with its own staggering on, this mod does nothing, so the delay is not applied twice.
+- If my Peer Relink mod is installed with its own staggering on, this mod does nothing, so the delay is not applied twice.
+- If Match Making Improvements is installed, this mod steps aside (host and client side), since that mod delays the same introductions. A line in the BLT log says so.
 - Nothing is sent to other players beyond what vanilla sends.
 
 ## Limitations

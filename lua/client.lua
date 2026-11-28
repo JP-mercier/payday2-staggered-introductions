@@ -86,7 +86,8 @@ if RequiredScript == "lib/network/base/clientnetworksession" and ClientNetworkSe
 
 	function ClientNetworkSession:peer_handshake(name, peer_id, peer_user_id, ...)
 		local delay = SI.CLIENT_ENABLED and DelayedCalls and peer_id ~= 1 and self._peers and not self._peers[peer_id]
-			and peer_user_id and self._server_protocol == SystemInfo:matchmaking_protocol() and SI:client_delay(peer_user_id)
+			and peer_user_id and self._server_protocol == SystemInfo:matchmaking_protocol()
+			and not SI:other_mod_staggers() and SI:client_delay(peer_user_id)
 		if not delay or not (delay > 0) then
 			return peer_handshake(self, name, peer_id, peer_user_id, ...)
 		end

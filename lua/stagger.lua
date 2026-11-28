@@ -28,7 +28,7 @@ if HostStateBase and HostStateBase._introduce_new_peer_to_old_peers and not Host
 		local introduce = HostStateBase._introduce_new_peer_to_old_peers
 
 		function HostStateBase:_introduce_new_peer_to_old_peers(data, new_peer, ...)
-			if not SI.ENABLED or not DelayedCalls or not new_peer or not (SI.DELAY > 0) then
+			if not SI.ENABLED or not DelayedCalls or not new_peer or not (SI.DELAY > 0) or SI:other_mod_staggers() then
 				return introduce(self, data, new_peer, ...)
 			end
 

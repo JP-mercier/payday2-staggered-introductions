@@ -31,3 +31,17 @@ if not SI._settings_loaded then
 		dofile(ModPath .. "local_settings.lua")
 	end
 end
+
+-- Match Making Improvements (global FixMatchMaking) delays the same introductions, host and
+-- client side. With both mods, each introduction would wait twice, so this mod steps aside.
+-- Checked at call time: the two mods can load in either order and wrap each other either way.
+function SI:other_mod_staggers()
+	if rawget(_G, "FixMatchMaking") == nil then
+		return false
+	end
+	if not self._yield_logged then
+		self._yield_logged = true
+		log("[Drop-in Desync Fix] Match Making Improvements is installed and delays the same introductions; stepping aside")
+	end
+	return true
+end
